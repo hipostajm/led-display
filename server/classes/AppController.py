@@ -61,8 +61,6 @@ class AppController:
         if len(image) != 32 and len(image[0]) != 64:
             image = resize_image(image, self.width, self.height)
         
-        # matrix_to_image(image).show()
-        
         if not hsv.is_empty():
             image = self.add_to_matrix_with_hsv(image, hsv) 
             
@@ -87,55 +85,17 @@ class AppController:
     def addapt_animated_image(self, image: Image, hsv: HSV, rotation_mode: int, flip_horizontal: int, flip_vertical: int):        
         frames = []   
 
-        image_copy = image.copy().convert("RGBA")
-        first_frame_duration = image_copy.info["duration"]
-        
-        first_frame = image_to_matrix(image_copy)
-        
-        if rotation_mode:
-            first_frame = rotate_matrix(first_frame, rotation_mode)
-            
-        if flip_horizontal:
-            first_frame = flip_matrix_horizontal(first_frame)
-        
-        if flip_vertical:
-            first_frame = flip_matrix_vertical(first_frame)
-            
-        if len(first_frame) != 32 and len(first_frame[0]) != 64:
-            first_frame = resize_image(first_frame, self.width, self.height)
-        
-        if not hsv.is_empty():
-            first_frame = self.add_to_matrix_with_hsv(first_frame, hsv)
-        
-        first_frame = flat_image(first_frame, self.width, self.height)
-
-        frames.append({"duration": first_frame_duration/1000, "frame": first_frame})
+        image_copy = image.copy().convert("RGBA") # idk why ask pil developers bc i cant get diff method to get first frame aaaaaa gotta kms
+        first_frame = self.addapt_image(image_copy, hsv, rotation_mode, flip_horizontal, flip_vertical)
+        frames.append({"duration": image_copy.info["duration"]/1000, "frame": first_frame})
 
         try:
             while 1:
                 image.seek(image.tell() + 1)
-                duration = image.info["duration"]
+                # duration = image.info["duration"]
                 image.convert("RGBA")
-                
-                frame = image_to_matrix(image)
-        
-                if rotation_mode:
-                    frame = rotate_matrix(frame, rotation_mode)
-                    
-                if flip_horizontal:
-                    frame = flip_matrix_horizontal(frame)
-                
-                if flip_vertical:
-                    frame = flip_matrix_vertical(frame)
-                
-                if len(frame) != 32 and len(frame[0]) != 64:
-                    frame = resize_image(frame, self.width, self.height)   
-                
-                if not hsv.is_empty():
-                    frame = self.add_to_matrix_with_hsv(frame, hsv)
-                
-                frame = flat_image(frame, self.width, self.height)
-                frames.append({"duration": duration/1000, "frame": frame})
+                frame = self.addapt_image(image, hsv, rotation_mode, flip_horizontal, flip_vertical)
+                frames.append({"duration": image.info["duration"]/1000, "frame": frame})
         except EOFError:
                 pass
         

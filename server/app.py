@@ -60,7 +60,10 @@ def post_image():
                 
         image = Image.open(BytesIO(file.stream.read()))
         appController.post_image(image, file.filename, hsv, rotation_mode, flip_horizontal, flip_vertical)
-        return app.redirect("/image/"), 200
+        
+        with open("./html/image-form.html") as form:
+            return form.read(), 200 
+        
     except NoImageSentException:
         return "No image was sended ;(", 400
     except WrongExtensionsOfImageException:
