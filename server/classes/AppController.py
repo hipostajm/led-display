@@ -58,10 +58,12 @@ class AppController:
         if flip_vertical:
             image = flip_matrix_vertical(image)
             
+        if len(image) != 32 and len(image[0]) != 64:
+            image = resize_image(image, self.width, self.height)
         
-        image = resize_image(image, self.width, self.height)
+        # matrix_to_image(image).show()
         
-        if hsv.is_not_empty():
+        if not hsv.is_empty():
             image = self.add_to_matrix_with_hsv(image, hsv) 
             
         image = flat_image(image, self.width, self.height)
@@ -98,11 +100,12 @@ class AppController:
         
         if flip_vertical:
             first_frame = flip_matrix_vertical(first_frame)
+            
+        if len(first_frame) != 32 and len(first_frame[0]) != 64:
+            first_frame = resize_image(first_frame, self.width, self.height)
         
-        first_frame = resize_image(first_frame, self.width, self.height)
-
-        if hsv.is_not_empty():
-                    first_frame = self.add_to_matrix_with_hsv(first_frame, hsv)
+        if not hsv.is_empty():
+            first_frame = self.add_to_matrix_with_hsv(first_frame, hsv)
         
         first_frame = flat_image(first_frame, self.width, self.height)
 
@@ -125,9 +128,10 @@ class AppController:
                 if flip_vertical:
                     frame = flip_matrix_vertical(frame)
                 
-                frame = resize_image(frame, self.width, self.height)
+                if len(frame) != 32 and len(frame[0]) != 64:
+                    frame = resize_image(frame, self.width, self.height)   
                 
-                if hsv.is_not_empty():
+                if not hsv.is_empty():
                     frame = self.add_to_matrix_with_hsv(frame, hsv)
                 
                 frame = flat_image(frame, self.width, self.height)

@@ -6,7 +6,7 @@ def matrix_to_image(matrix: list|tuple[list|tuple[int, int, int]]):
     image = Image.new("RGB", (width, height))
     for y in range(height):
         for x in range(width):
-            image.putpixel((x,y), matrix[y][x])
+            image.putpixel((x,y), tuple(matrix[y][x]))
             
     return image
     
