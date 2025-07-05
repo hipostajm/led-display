@@ -5,7 +5,7 @@ import RPi.GPIO as GPIO
 import time
 
 class Matrix:
-    def __init__(self, pixels: Pixels, pins: Pins, delay: int|float = 0.00001):
+    def __init__(self, pixels: Pixels, pins: Pins, delay: int|float = 0.00002):
         self.pixels: Pixels = pixels
         self.pins: Pins = pins
         self.delay: int|float = delay
