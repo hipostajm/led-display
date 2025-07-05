@@ -58,7 +58,7 @@ class AppController:
         if flip_vertical:
             image = flip_matrix_vertical(image)
             
-        if len(image) != 32 and len(image[0]) != 64:
+        if len(image) != self.height and len(image[0]) != self.width:
             image = resize_image(image, self.width, self.height)
         
         if not hsv.is_empty():
