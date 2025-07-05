@@ -93,7 +93,7 @@ class AppController:
             while 1:
                 image.seek(image.tell() + 1)
                 # duration = image.info["duration"]
-                image.convert("RGBA")
+                # image.convert("RGBA")
                 frame = self.addapt_image(image, hsv, rotation_mode, flip_horizontal, flip_vertical)
                 frames.append({"duration": image.info["duration"]/1000, "frame": frame})
         except EOFError:
